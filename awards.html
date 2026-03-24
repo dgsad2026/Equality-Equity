@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equality & Equity - Awards</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            background-color: #00030a;
+            color: #f7f2ee;
+        }
+
+        h1, h2, h3, .nav-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        p {
+            font-family: 'Gill Sans', sans-serif;
+        }
+
+        .theme-text {
+            color: #f7f2ee;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        /* Rotating Gradient */
+        #bg-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 300vw;
+            height: 300vh;
+            background: linear-gradient(135deg, 
+                #0f202e 0%,   
+                #1c3c53 40%,  
+                #446882 70%,  
+                #7c9bb1 100%  
+            );
+            transform-origin: center;
+            transform: translate(-50%, -50%) rotate(0deg);
+            transition: transform 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+            z-index: -1;
+            will-change: transform;
+        }
+
+        /* --- SLIDESHOW STYLES --- */
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            overflow: hidden;
+            touch-action: pan-y;
+        }
+
+        .slides-wrapper {
+            display: flex;
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+            width: 100%;
+        }
+
+        .slide-item {
+            min-width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        .slide-image {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1.5rem;
+            color: #d4af37;
+        }
+        @media (min-width: 768px) {
+            .slide-image { width: 120px; height: 120px; }
+            .slide-item { padding: 3rem; }
+        }
+
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 30;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid #d4af37;
+            color: #d4af37;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        @media (min-width: 768px) {
+            .nav-btn { padding: 0.75rem; }
+        }
+
+        .nav-btn:hover {
+            background: #d4af37;
+            color: #00030a;
+        }
+
+        .prev-btn { left: 5px; }
+        .next-btn { right: 5px; }
+
+        /* Mobile Menu */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .menu-open {
+            transform: translateX(0) !important;
+        }
+
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0.07;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .vignette {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 4;
+            background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,3,10,0.8) 100%);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="noise-overlay"></div>
+    <div class="vignette"></div>
+
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 flex justify-center py-6 transition-opacity duration-500">
+        <div class="hidden md:flex space-x-8 md:space-x-12 lg:space-x-16">
+            <a href="index.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent hover:border-[#d4af37] pb-1">Home</a>
+            <a href="aboutus.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent hover:border-[#d4af37] pb-1">About Us</a>
+            <a href="english.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent hover:border-[#d4af37] pb-1">English Division</a>
+            <a href="chinese.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent hover:border-[#d4af37] pb-1">Chinese Division</a>
+            <a href="awards.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent hover:border-[#d4af37] pb-1">Awards</a>
+            <a href="vote.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent hover:border-[#d4af37] pb-1">Vote Now</a>
+        </div>
+        <div class="md:hidden absolute right-6 top-6">
+            <button id="menu-btn" class="text-[#f7f2ee] focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+    </nav>
+
+    <div id="mobile-menu" class="fixed top-0 right-0 h-full w-64 bg-[#1c3c53] transform translate-x-full z-[60] shadow-2xl flex flex-col items-center justify-center space-y-8 border-l border-[#d4af37]/30">
+        <button id="close-menu-btn" class="absolute top-6 right-6 text-[#f7f2ee]"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+        <a href="index.html" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">Home</a>
+        <a href="aboutus.html" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">About Us</a>
+        <a href="english.html" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">English Division</a>
+        <a href="chinese.html" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">Chinese Division</a>
+        <a href="awards.html" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">Awards</a>
+        <a href="vote.html" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">Vote Now</a>
+    </div>
+
+    <div id="bg-container"></div>
+
+    <main class="relative z-20">
+        
+        <section id="sec-1" class="min-h-screen flex flex-col items-center justify-center p-8 scroll-section">
+            <h1 class="text-4xl md:text-6xl font-bold tracking-[0.2em] text-center theme-text leading-tight opacity-0 translate-y-10 transition-all duration-1000 delay-300" id="hero-title">
+                AWARDS
+            </h1>
+        </section>
+
+        <section id="sec-2" class="min-h-[80vh] flex flex-col items-center justify-center p-8 scroll-section">
+            <div class="mb-8 md:mb-12 text-center sec-content opacity-0 translate-y-5 transition-all duration-1000">
+                <h2 class="text-2xl md:text-5xl font-bold theme-text uppercase tracking-widest">Category Showcase</h2>
+                <div class="h-1 w-16 md:w-24 bg-[#d4af37] mx-auto mt-4"></div>
+            </div>
+
+            <div class="slideshow-container sec-content opacity-0 translate-y-5 transition-all duration-1000 delay-200">
+                <button class="nav-btn prev-btn" id="prevSlide">
+                    <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <button class="nav-btn next-btn" id="nextSlide">
+                    <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+
+                <div class="slides-wrapper" id="slidesWrapper">
+                    <!-- 1. Best Radio Drama -->
+                    <div class="slide-item">
+                        <div class="slide-image">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                        </div>
+                        <h3 class="text-xl md:text-4xl font-bold text-[#d4af37] uppercase tracking-widest text-center">Best Radio Drama</h3>
+                        <!-- <p class="mt-4 text-white/60 text-center max-w-md italic text-sm md:text-base">The pinnacle of storytelling and technical achievement in audio performance.</p>
+                        -->
+                    </div>
+                    <!-- 2. Best Audio Effects -->
+                    <div class="slide-item">
+                        <div class="slide-image">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
+                        </div>
+                        <h3 class="text-xl md:text-4xl font-bold text-[#d4af37] uppercase tracking-widest text-center">Best Audio Effects</h3>
+                        <!-- <p class="mt-4 text-white/60 text-center max-w-md italic text-sm md:text-base">Excellence in foley, soundscapes, and immersive auditory environments.</p>
+                        -->
+                    </div>
+                    <!-- 3. Best Visual Effects -->
+                    <div class="slide-item">
+                        <div class="slide-image">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-width="1" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                        </div>
+                        <h3 class="text-xl md:text-4xl font-bold text-[#d4af37] uppercase tracking-widest text-center">Best Visual Effects</h3>
+                        <!-- <p class="mt-4 text-white/60 text-center max-w-md italic text-sm md:text-base">Honoring the artistic vision and technical mastery of production visuals.</p>
+                        -->
+                    </div>
+                    <!-- 4. Best Voice Acting -->
+                    <div class="slide-item">
+                        <div class="slide-image">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg>
+                        </div>
+                        <h3 class="text-xl md:text-4xl font-bold text-[#d4af37] uppercase tracking-widest text-center">Best Voice Acting</h3>
+                        <!-- <p class="mt-4 text-white/60 text-center max-w-md italic text-sm md:text-base">Celebrating the emotional depth and character range of our performers.</p>
+                        -->
+                    </div>
+                    <!-- 5. Best Script -->
+                    <div class="slide-item">
+                        <div class="slide-image">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                        </div>
+                        <h3 class="text-xl md:text-4xl font-bold text-[#d4af37] uppercase tracking-widest text-center">Best Script</h3>
+                        <!-- <p class="mt-4 text-white/60 text-center max-w-md italic text-sm md:text-base">Awarded for exceptional writing, pacing, and narrative structure.</p>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="voting-section" class="min-h-[40vh] flex flex-col items-center justify-center p-8 scroll-section">
+            <div id="countdown-container" class="flex flex-col items-center opacity-0 translate-y-5 transition-all duration-1000 delay-100 sec-content">
+                <p class="text-[#f7f2ee] tracking-[0.05em] text-center text-lg md:text-xl mb-6">Support your favourite Radio Drama!</p>
+                <a href="vote.html" class="group relative px-8 py-3 border border-[#d4af37] text-[#d4af37] hover:text-[#00030a] overflow-hidden transition-colors duration-300 uppercase tracking-widest text-sm font-bold">
+                    <span class="absolute inset-0 w-full h-full bg-[#d4af37] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out"></span>
+                    <span class="relative z-10">Cast Your Vote</span>
+                </a>
+            </div>
+        </section>
+        
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const bgContainer = document.getElementById('bg-container');
+            const navbar = document.getElementById('navbar');
+            const menuBtn = document.getElementById('menu-btn');
+            const closeMenuBtn = document.getElementById('close-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            // Slideshow logic
+            const slidesWrapper = document.getElementById('slidesWrapper');
+            const slides = document.querySelectorAll('.slide-item');
+            const nextBtn = document.getElementById('nextSlide');
+            const prevBtn = document.getElementById('prevSlide');
+            let currentSlide = 0;
+
+            function updateSlides() {
+                slidesWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+            }
+
+            nextBtn.addEventListener('click', () => {
+                currentSlide = (currentSlide + 1) % slides.length;
+                updateSlides();
+            });
+
+            prevBtn.addEventListener('click', () => {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                updateSlides();
+            });
+
+            // Touch support for mobile swiping
+            let touchStartX = 0;
+            let touchEndX = 0;
+            slidesWrapper.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
+            slidesWrapper.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                if (touchStartX - touchEndX > 50) { // Swipe Left
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    updateSlides();
+                } else if (touchEndX - touchStartX > 50) { // Swipe Right
+                    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                    updateSlides();
+                }
+            });
+
+            // Menu logic
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('menu-open');
+                navbar.classList.add('opacity-0', 'pointer-events-none');
+            });
+
+            closeMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.remove('menu-open');
+                if (window.scrollY < window.innerHeight / 2) {
+                    navbar.classList.remove('opacity-0', 'pointer-events-none');
+                }
+            });
+
+            // Entry animations
+            setTimeout(() => {
+                const hero = document.getElementById('hero-title');
+                if(hero) hero.classList.remove('opacity-0', 'translate-y-10');
+            }, 100);
+
+            // Intersection Observer
+            const observerOptions = { threshold: 0.1 };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        handleSectionChange(entry.target.id);
+                        animateContent(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.scroll-section').forEach(section => observer.observe(section));
+
+            function handleSectionChange(id) {
+                const isMobile = window.innerWidth < 768;
+                
+                if (id === 'sec-1') {
+                    if (!mobileMenu.classList.contains('menu-open')) {
+                        navbar.classList.remove('opacity-0', 'pointer-events-none');
+                    }
+                    bgContainer.style.transform = 'translate(-50%, -50%) rotate(0deg)';
+                } else {
+                    navbar.classList.add('opacity-0', 'pointer-events-none');
+                    if (id === 'sec-2') {
+                        bgContainer.style.transform = 'translate(-50%, -50%) rotate(45deg)';
+                    } else if (id === 'voting-section') {
+                        bgContainer.style.transform = 'translate(-50%, -50%) rotate(135deg)';
+                    }
+                }
+            }
+
+            function animateContent(section) {
+                const contents = section.querySelectorAll('.sec-content');
+                contents.forEach(el => el.classList.remove('opacity-0', 'translate-y-5'));
+            }
+        });
+    </script>
+</body>
+</html>
