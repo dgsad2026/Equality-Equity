@@ -32,7 +32,49 @@
             background: transparent;
         }
 
-        /* Rotating Gradient */
+        /* --- CURTAIN --- */
+        .curtain {
+            position: fixed;
+            top: -25%; 
+            height: 110vh;
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: 15;
+            pointer-events: none;
+            transition: top 2.2s cubic-bezier(0.22, 1, 0.36, 1), 
+                        left 2.2s cubic-bezier(0.22, 1, 0.36, 1), 
+                        right 2.2s cubic-bezier(0.22, 1, 0.36, 1);
+            filter: drop-shadow(0 0 40px rgba(0,0,0,0.9));
+        }
+        .curtain { width: 40vw; }
+
+        @media (min-width: 500px) { .curtain { width: 35vw; } }
+        @media (min-width: 768px) { .curtain { width: 25vw; } }
+        @media (min-width: 1320px) { .curtain { width: 22vw; } }
+
+        #curtain-left {
+            left: -50%; 
+            background-image: url('assets/curtain_left.png');
+            background-position: right center;
+        }
+
+        #curtain-right {
+            right: -50%; 
+            background-image: url('assets/curtain_right.png');
+            background-position: left center;
+        }
+
+        .curtains-dropped #curtain-left {
+            top: -3%; 
+            left: 0;
+        }
+
+        .curtains-dropped #curtain-right {
+            top: -3%;
+            right: 0;
+        }
+
+        /* BACKGROUND */
         #bg-container {
             position: fixed;
             top: 50%;
@@ -52,80 +94,12 @@
             will-change: transform;
         }
 
-        /* --- SLIDESHOW STYLES --- */
-        .slideshow-container {
-            position: relative;
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-            overflow: hidden;
-            touch-action: pan-y;
-        }
-
-        .slides-wrapper {
-            display: flex;
-            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
-            width: 100%;
-        }
-
-        .slide-item {
-            min-width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-            box-sizing: border-box;
-        }
-
-        .slide-image {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 1.5rem;
-            color: #d4af37;
-        }
-        @media (min-width: 768px) {
-            .slide-image { width: 120px; height: 120px; }
-            .slide-item { padding: 3rem; }
-        }
-
-        .nav-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 30;
-            background: rgba(212, 175, 55, 0.1);
-            border: 1px solid #d4af37;
-            color: #d4af37;
-            padding: 0.5rem;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        @media (min-width: 768px) {
-            .nav-btn { padding: 0.75rem; }
-        }
-
-        .nav-btn:hover {
-            background: #d4af37;
-            color: #00030a;
-        }
-
-        .prev-btn { left: 5px; }
-        .next-btn { right: 5px; }
-
-        /* Mobile Menu */
-        #mobile-menu {
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .menu-open {
-            transform: translateX(0) !important;
-        }
-
         .noise-overlay {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             pointer-events: none;
             z-index: 5;
             opacity: 0.07;
@@ -134,12 +108,49 @@
 
         .vignette {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             pointer-events: none;
             z-index: 4;
             background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,3,10,0.8) 100%);
         }
+
+        .award-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 2px solid rgba(212, 175, 55, 0.1);
+            transition: background 0.5s ease, border 0.5s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 1s ease, translate 1s cubic-bezier(0.22, 1, 0.36, 1);
+            width: 100%;
+            opacity: 0;
+            translate: 0 40px;
+        }
+        
+        .award-card.reveal {
+            opacity: 1;
+            translate: 0 0;
+        }
+
+        @media (min-width: 768px) {
+            .award-card { width: calc(50% - 2rem); }
+        }
+        @media (min-width: 1024px) {
+            .award-card { width: calc(33.333% - 2rem); }
+        }
+
+        .award-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-bottom: 2px solid #d4af37;
+            transform: translateY(-8px);
+        }
+
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .menu-open {
+            transform: translateX(0) !important;
+        }
+
     </style>
 </head>
 <body>
@@ -147,15 +158,19 @@
     <div class="noise-overlay"></div>
     <div class="vignette"></div>
 
+    <div id="curtain-left" class="curtain"></div>
+    <div id="curtain-right" class="curtain"></div>
+
     <nav id="navbar" class="fixed top-0 left-0 w-full z-50 flex justify-center py-6 transition-opacity duration-500">
-        <div class="hidden md:flex space-x-8 md:space-x-12 lg:space-x-16">
-            <a href="index.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent hover:border-[#d4af37] pb-1">Home</a>
-            <a href="aboutus.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent hover:border-[#d4af37] pb-1">About Us</a>
-            <a href="english.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent hover:border-[#d4af37] pb-1">English Division</a>
-            <a href="chinese.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent hover:border-[#d4af37] pb-1">Chinese Division</a>
-            <a href="awards.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent hover:border-[#d4af37] pb-1">Awards</a>
-            <a href="vote.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent hover:border-[#d4af37] pb-1">Vote Now</a>
+        <div class="hidden md:flex space-x-8 md:space-x-16">
+            <a href="index.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent pb-1">Home</a>
+            <a href="english.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent pb-1">English Division</a>
+            <a href="chinese.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent pb-1">Chinese Division</a>
+            <a href="awards.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-[#d4af37] pb-1">Awards</a>
+            <a href="dramanight.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent pb-1">Drama Night</a>
+            <a href="https://docs.google.com/forms" target="_blank" rel="noopener noreferrer" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent pb-1">Vote Now</a>
         </div>
+
         <div class="md:hidden absolute right-6 top-6">
             <button id="menu-btn" class="text-[#f7f2ee] focus:outline-none">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -166,11 +181,11 @@
     <div id="mobile-menu" class="fixed top-0 right-0 h-full w-64 bg-[#1c3c53] transform translate-x-full z-[60] shadow-2xl flex flex-col items-center justify-center space-y-8 border-l border-[#d4af37]/30">
         <button id="close-menu-btn" class="absolute top-6 right-6 text-[#f7f2ee]"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
         <a href="index.html" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">Home</a>
-        <a href="aboutus.html" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">About Us</a>
         <a href="english.html" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">English Division</a>
         <a href="chinese.html" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">Chinese Division</a>
         <a href="awards.html" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">Awards</a>
-        <a href="vote.html" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">Vote Now</a>
+        <a href="dramanight.html" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">Drama Night</a>
+        <a href="https://docs.google.com/forms" target="_blank" rel="noopener noreferrer" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">Vote Now</a>
     </div>
 
     <div id="bg-container"></div>
@@ -181,76 +196,67 @@
             <h1 class="text-4xl md:text-6xl font-bold tracking-[0.2em] text-center theme-text leading-tight opacity-0 translate-y-10 transition-all duration-1000 delay-300" id="hero-title">
                 AWARDS
             </h1>
+            <p class="mt-8 text md:text-xl theme-text max-w-2xl text-center opacity-0 transition-all duration-1000 delay-700 flex flex-wrap justify-center items-center gap-4" id="hero-sub">
+                DGS Radio Drama Online Voting Competition
+            </p>
         </section>
 
         <section id="sec-2" class="min-h-[80vh] flex flex-col items-center justify-center p-8 scroll-section">
             <div class="mb-8 md:mb-12 text-center sec-content opacity-0 translate-y-5 transition-all duration-1000">
-                <h2 class="text-2xl md:text-5xl font-bold theme-text uppercase tracking-widest">Category Showcase</h2>
+                <h2 class="text-2xl md:text-4xl font-bold theme-text uppercase tracking-widest">Award Categories</h2>
                 <div class="h-1 w-16 md:w-24 bg-[#d4af37] mx-auto mt-4"></div>
             </div>
 
-            <div class="slideshow-container sec-content opacity-0 translate-y-5 transition-all duration-1000 delay-200">
-                <button class="nav-btn prev-btn" id="prevSlide">
-                    <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                </button>
-                <button class="nav-btn next-btn" id="nextSlide">
-                    <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                </button>
-
-                <div class="slides-wrapper" id="slidesWrapper">
-                    <!-- 1. Best Radio Drama -->
-                    <div class="slide-item">
-                        <div class="slide-image">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
-                        </div>
-                        <h3 class="text-xl md:text-4xl font-bold text-[#d4af37] uppercase tracking-widest text-center">Best Radio Drama</h3>
-                        <!-- <p class="mt-4 text-white/60 text-center max-w-md italic text-sm md:text-base">The pinnacle of storytelling and technical achievement in audio performance.</p>
-                        -->
+            <div class="max-w-6xl w-full flex flex-wrap justify-center gap-6 md:gap-8">
+                
+                <!-- 1. Best Radio Drama -->
+                <div class="award-card p-8 flex flex-col items-center text-center">
+                    <div class="w-28 h-28 mb-6 flex items-center justify-center">
+                        <img src="assets/best_radio_drama.png" alt="Best Radio Drama" class="max-h-full" onerror="this.style.display='none'">
                     </div>
-                    <!-- 2. Best Audio Effects -->
-                    <div class="slide-item">
-                        <div class="slide-image">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
-                        </div>
-                        <h3 class="text-xl md:text-4xl font-bold text-[#d4af37] uppercase tracking-widest text-center">Best Audio Effects</h3>
-                        <!-- <p class="mt-4 text-white/60 text-center max-w-md italic text-sm md:text-base">Excellence in foley, soundscapes, and immersive auditory environments.</p>
-                        -->
-                    </div>
-                    <!-- 3. Best Visual Effects -->
-                    <div class="slide-item">
-                        <div class="slide-image">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-width="1" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                        </div>
-                        <h3 class="text-xl md:text-4xl font-bold text-[#d4af37] uppercase tracking-widest text-center">Best Visual Effects</h3>
-                        <!-- <p class="mt-4 text-white/60 text-center max-w-md italic text-sm md:text-base">Honoring the artistic vision and technical mastery of production visuals.</p>
-                        -->
-                    </div>
-                    <!-- 4. Best Voice Acting -->
-                    <div class="slide-item">
-                        <div class="slide-image">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg>
-                        </div>
-                        <h3 class="text-xl md:text-4xl font-bold text-[#d4af37] uppercase tracking-widest text-center">Best Voice Acting</h3>
-                        <!-- <p class="mt-4 text-white/60 text-center max-w-md italic text-sm md:text-base">Celebrating the emotional depth and character range of our performers.</p>
-                        -->
-                    </div>
-                    <!-- 5. Best Script -->
-                    <div class="slide-item">
-                        <div class="slide-image">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                        </div>
-                        <h3 class="text-xl md:text-4xl font-bold text-[#d4af37] uppercase tracking-widest text-center">Best Script</h3>
-                        <!-- <p class="mt-4 text-white/60 text-center max-w-md italic text-sm md:text-base">Awarded for exceptional writing, pacing, and narrative structure.</p>
-                        -->
-                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold text-[#d4af37] uppercase tracking-widest">Best Radio Drama</h3>
                 </div>
+
+                <!-- 2. Best Audio Effects -->
+                <div class="award-card p-8 flex flex-col items-center text-center">
+                    <div class="w-28 h-28 mb-6 flex items-center justify-center">
+                        <img src="assets/best_audio_effects.png" alt="Best Audio Effects" class="max-h-full" onerror="this.style.display='none'">
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold text-[#d4af37] uppercase tracking-widest">Best Audio Effects</h3>
+                </div>
+
+                <!-- 3. Best Visual Effects -->
+                <div class="award-card p-8 flex flex-col items-center text-center">
+                    <div class="w-28 h-28 mb-6 flex items-center justify-center">
+                        <img src="assets/best_visual_effects.png" alt="Best Visual Effects" class="max-h-full" onerror="this.style.display='none'">
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold text-[#d4af37] uppercase tracking-widest">Best Visual Effects</h3>
+                </div>
+
+                <!-- 4. Best Voice Acting -->
+                <div class="award-card p-8 flex flex-col items-center text-center">
+                    <div class="w-28 h-28 mb-6 flex items-center justify-center">
+                        <img src="assets/best_voice_acting.png" alt="Best Voice Acting" class="max-h-full" onerror="this.style.display='none'">
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold text-[#d4af37] uppercase tracking-widest">Best Voice Acting</h3>
+                </div>
+
+                <!-- 5. Best Script -->
+                <div class="award-card p-8 flex flex-col items-center text-center">
+                    <div class="w-28 h-28 mb-6 flex items-center justify-center">
+                        <img src="assets/best_script.png" alt="Best Script" class="max-h-full" onerror="this.style.display='none'">
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold text-[#d4af37] uppercase tracking-widest">Best Script</h3>
+                </div>
+
             </div>
         </section>
 
+        <!-- voting -->
         <section id="voting-section" class="min-h-[40vh] flex flex-col items-center justify-center p-8 scroll-section">
             <div id="countdown-container" class="flex flex-col items-center opacity-0 translate-y-5 transition-all duration-1000 delay-100 sec-content">
-                <p class="text-[#f7f2ee] tracking-[0.05em] text-center text-lg md:text-xl mb-6">Support your favourite Radio Drama!</p>
-                <a href="vote.html" class="group relative px-8 py-3 border border-[#d4af37] text-[#d4af37] hover:text-[#00030a] overflow-hidden transition-colors duration-300 uppercase tracking-widest text-sm font-bold">
+                <p class="text-[#f7f2ee] tracking-[0.05em] text-center text-lg md:text-xl mb-6">Nominate a Radio Drama for these awards!</p>
+                <a href="https://docs.google.com/forms" target="_blank" rel="noopener noreferrer" class="group relative px-8 py-3 border border-[#d4af37] text-[#d4af37] hover:text-[#00030a] overflow-hidden transition-colors duration-300 uppercase tracking-widest text-sm font-bold">
                     <span class="absolute inset-0 w-full h-full bg-[#d4af37] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out"></span>
                     <span class="relative z-10">Cast Your Vote</span>
                 </a>
@@ -267,43 +273,34 @@
             const closeMenuBtn = document.getElementById('close-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
             
-            // Slideshow logic
-            const slidesWrapper = document.getElementById('slidesWrapper');
-            const slides = document.querySelectorAll('.slide-item');
-            const nextBtn = document.getElementById('nextSlide');
-            const prevBtn = document.getElementById('prevSlide');
-            let currentSlide = 0;
+            const leftCurtain = document.getElementById('curtain-left');
+            const rightCurtain = document.getElementById('curtain-right');
 
-            function updateSlides() {
-                slidesWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
-            }
+            setTimeout(() => {
+                document.body.classList.add('curtains-dropped');
+            }, 100);
 
-            nextBtn.addEventListener('click', () => {
-                currentSlide = (currentSlide + 1) % slides.length;
-                updateSlides();
-            });
+            window.addEventListener('scroll', () => {
+                const scrollPos = window.scrollY;
+                const windowHeight = window.innerHeight;
 
-            prevBtn.addEventListener('click', () => {
-                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-                updateSlides();
-            });
+                // curtain fade logic
+                const fadeDistance = windowHeight * 0.5; 
+                let opacityCurtain = 1 - (scrollPos / fadeDistance);
+                if (opacityCurtain < 0) opacityCurtain = 0;
+                
+                leftCurtain.style.opacity = opacityCurtain;
+                rightCurtain.style.opacity = opacityCurtain;
 
-            // Touch support for mobile swiping
-            let touchStartX = 0;
-            let touchEndX = 0;
-            slidesWrapper.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
-            slidesWrapper.addEventListener('touchend', e => {
-                touchEndX = e.changedTouches[0].screenX;
-                if (touchStartX - touchEndX > 50) { // Swipe Left
-                    currentSlide = (currentSlide + 1) % slides.length;
-                    updateSlides();
-                } else if (touchEndX - touchStartX > 50) { // Swipe Right
-                    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-                    updateSlides();
+                // menu show logic
+                if (scrollPos < 5) {
+                    if (!mobileMenu.classList.contains('menu-open')) {
+                        navbar.classList.remove('opacity-0', 'pointer-events-none');
+                    }
+                    bgContainer.style.transform = 'translate(-50%, -50%) rotate(0deg)';
                 }
             });
-
-            // Menu logic
+            
             menuBtn.addEventListener('click', () => {
                 mobileMenu.classList.add('menu-open');
                 navbar.classList.add('opacity-0', 'pointer-events-none');
@@ -316,14 +313,12 @@
                 }
             });
 
-            // Entry animations
             setTimeout(() => {
-                const hero = document.getElementById('hero-title');
-                if(hero) hero.classList.remove('opacity-0', 'translate-y-10');
+                document.getElementById('hero-title').classList.remove('opacity-0', 'translate-y-10');
+                document.getElementById('hero-sub').classList.remove('opacity-0');
             }, 100);
 
-            // Intersection Observer
-            const observerOptions = { threshold: 0.1 };
+            const observerOptions = { threshold: 0.2 };
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -336,8 +331,6 @@
             document.querySelectorAll('.scroll-section').forEach(section => observer.observe(section));
 
             function handleSectionChange(id) {
-                const isMobile = window.innerWidth < 768;
-                
                 if (id === 'sec-1') {
                     if (!mobileMenu.classList.contains('menu-open')) {
                         navbar.classList.remove('opacity-0', 'pointer-events-none');
@@ -355,7 +348,14 @@
 
             function animateContent(section) {
                 const contents = section.querySelectorAll('.sec-content');
-                contents.forEach(el => el.classList.remove('opacity-0', 'translate-y-5'));
+                contents.forEach(el => el.classList.remove('opacity-0', 'translate-y-10', 'translate-y-5'));
+
+                const cards = section.querySelectorAll('.award-card');
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('reveal');
+                    }, index * 150);
+                });
             }
         });
     </script>
