@@ -32,7 +32,61 @@
             background: transparent;
         }
 
-        /* Rotating Gradient Background */
+        /* --- CURTAIN --- */
+        .curtain {
+            position: fixed;
+            top: -25%; /* initial pos */
+            height: 110vh;
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: 15;
+            pointer-events: none;
+            /* entry transition */
+            transition: top 2.2s cubic-bezier(0.22, 1, 0.36, 1), 
+                        left 2.2s cubic-bezier(0.22, 1, 0.36, 1), 
+                        right 2.2s cubic-bezier(0.22, 1, 0.36, 1);
+            filter: drop-shadow(0 0 40px rgba(0,0,0,0.9));
+        }
+        .curtain { width: 40vw; }
+
+        /* Portrait iPad */
+        @media (min-width: 500px) {
+            .curtain { width: 35vw; }
+        }
+
+        /* Landscape iPad */
+        @media (min-width: 768px) {
+            .curtain { width: 25vw; }
+        }
+
+        /* Desktop */
+        @media (min-width: 1320px) {
+            .curtain { width: 22vw; }
+        }
+
+        #curtain-left {
+            left: -50%; /* initial pos */
+            background-image: url('assets/curtain_left.png');
+            background-position: right center;
+        }
+
+        #curtain-right {
+            right: -50%; /* initial pos */
+            background-image: url('assets/curtain_right.png');
+            background-position: left center;
+        }
+
+        .curtains-dropped #curtain-left {
+            top: -3%; 
+            left: 0;
+        }
+
+        .curtains-dropped #curtain-right {
+            top: -3%;
+            right: 0;
+        }
+
+        /* BACKGROUND */
         #bg-container {
             position: fixed;
             top: 50%;
@@ -52,7 +106,6 @@
             will-change: transform;
         }
 
-        /* Aesthetic Overlays */
         .noise-overlay {
             position: fixed;
             top: 0;
@@ -76,7 +129,7 @@
             background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,3,10,0.8) 100%);
         }
 
-        /* --- SCALE ANIMATION & LAYOUT CSS --- */
+        /* --- SCALE --- */
         #scale-container {
             overflow: visible;
         }
@@ -137,26 +190,17 @@
     <div class="vignette"></div>
     <div id="bg-container"></div>
 
+    <div id="curtain-left" class="curtain"></div>
+    <div id="curtain-right" class="curtain"></div>
+
     <nav id="navbar" class="fixed top-0 left-0 w-full z-50 flex justify-center py-6 transition-opacity duration-500">
         <div class="hidden md:flex space-x-8 md:space-x-16">
-            <a href="index.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent hover:border-[#d4af37] pb-1">
-                Home
-            </a>
-            <a href="aboutus.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent hover:border-[#d4af37] pb-1">
-                About Us
-            </a>
-            <a href="english.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent hover:border-[#d4af37] pb-1">
-                English Division
-            </a>
-            <a href="chinese.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent hover:border-[#d4af37] pb-1">
-                Chinese Division
-            </a>
-            <a href="awards.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent hover:border-[#d4af37] pb-1">
-                Awards
-            </a>
-            <a href="vote.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent hover:border-[#d4af37] pb-1">
-                Vote Now
-            </a>
+            <a href="index.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-[#d4af37] pb-1">Home</a>
+            <a href="english.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent pb-1">English Division</a>
+            <a href="chinese.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent pb-1">Chinese Division</a>
+            <a href="awards.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent pb-1">Awards</a>
+            <a href="dramanight.html" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent pb-1">Drama Night</a>
+            <a href="https://docs.google.com/forms" target="_blank" rel="noopener noreferrer" class="nav-font text-xs md:text-sm tracking-widest text-[#f7f2ee] hover:text-[#d4af37] transition-colors uppercase border-b border-transparent pb-1">Vote Now</a>
         </div>
 
         <div class="md:hidden absolute right-6 top-6">
@@ -168,23 +212,20 @@
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
     <div id="mobile-menu" class="fixed top-0 right-0 h-full w-60 bg-[#1c3c53] transform translate-x-full z-[60] shadow-2xl flex flex-col items-center justify-center space-y-8 border-l border-[#d4af37]/30">
         <button id="close-menu-btn" class="absolute top-6 right-6 text-[#f7f2ee]">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
         </button>
-
         <a href="index.html" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">Home</a>
-        <a href="aboutus.html" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">About Us</a>
         <a href="english.html" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">English Division</a>
         <a href="chinese.html" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">Chinese Division</a>
         <a href="awards.html" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">Awards</a>
-        <a href="vote.html" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">Vote Now</a>
+        <a href="dramanight.html" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">Drama Night</a>
+        <a href="https://docs.google.com/forms" target="_blank" rel="noopener noreferrer" class="nav-font text-center tracking-widest text-[#f7f2ee] hover:text-[#d4af37] uppercase">Vote Now</a>
     </div>
 
-    <!-- VISUAL CONTAINER (Scale) -->
     <div id="scale-container" class="fixed left-0 top-0 h-full w-full md:w-1/2 flex items-center justify-center pointer-events-none opacity-0 z-10">
         <div class="relative w-[90vw] md:w-[45vw] max-w-[600px] aspect-square opacity-50 md:opacity-100">
             <img src="assets/stand.png" class="absolute left-[40%] top-[60%] -translate-x-1/2 -translate-y-1/2 w-full h-[50%] object-contain" alt="Scale Stand" onerror="this.style.display='none'">
@@ -213,7 +254,7 @@
             </span><br>
                 EQUITY
             </h1>
-            <p class="mt-8 text-xl theme-text max-w-md text-center opacity-0 transition-all duration-1000 delay-700" id="hero-sub">
+            <p class="mt-8 text md:text-xl theme-text max-w-md text-center opacity-0 transition-all duration-1000 delay-700" id="hero-sub">
                 DGS Radio Drama Showcase 2025 - 2026
             </p>
         </section>
@@ -240,19 +281,26 @@
                         <span class="text-[10px] md:text-xs uppercase tracking-widest opacity-60">Secs</span>
                     </div>
                 </div>
-                
-                <a href="vote.html" class="group relative px-8 py-3 border border-[#d4af37] text-[#d4af37] hover:text-[#00030a] overflow-hidden transition-colors duration-300 uppercase tracking-widest text-sm font-bold">
+                <a href="https://docs.google.com/forms" target="_blank" rel="noopener noreferrer" class="group relative px-8 py-3 border border-[#d4af37] text-[#d4af37] hover:text-[#00030a] overflow-hidden transition-colors duration-300 uppercase tracking-widest text-sm font-bold">
                     <span class="absolute inset-0 w-full h-full bg-[#d4af37] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out"></span>
                     <span class="relative z-10">Cast Your Vote</span>
                 </a>
             </div>
         </section>
 
-        <section id="sec-2" class="min-h-[80vh] flex items-center justify-end p-8 md:pr-24 scroll-section">
+        <section id="aboutus" class="min-h-[80vh] md:min-h-[60vh] flex flex-col items-center justify-center p-8 scroll-section">
+            <div class="content-block sec-content opacity-0 translate-y-5 transition-all duration-1000">
+                <h3 class="nav-font text-[#d4af37] text-sm md:text tracking-[0.3em] uppercase mb-4">introduction to</h3>
+                <div class="gold-line sec-line scale-x-0 transition-transform duration-1000"></div>
+                <h2 class="text-3xl md:text-5xl font-bold italic mb-10 theme-text">AD Appreciation Program</h2>
+                <p class="text-lg md:text-xl leading-relaxed font-light text-justify text-[#f7f2ee]/80 max-w-2xl mx-auto mb-12">
+                    During the year, our S5 students have participated in AD lessons to learn skills regarding voice acting, drama directing and producing, sound effects and design, makeup, and scene drawing. To put learnt knowledge into use, students are required to create a radio drama, and a variety of activities will be organized to appreciate the effort and dedication students have put in. These will include online voting for their radio drama, a special Drama Night event, and opportunities for exchanges with students from other secondary schools.</p>
+            </div>
+        </section>
+
+        <section id="sec-2" class="min-h-[70vh] flex items-center justify-end p-8 md:pr-24 scroll-section">
             <div class="w-full md:w-1/2 flex flex-col items-start space-y-6">
-                <h2 class="text-4xl md:text-6xl font-bold theme-text transform transition-all duration-700 translate-x-10 italic opacity-0 sec-content">
-                    Equality
-                </h2>
+                <h2 class="text-4xl md:text-6xl font-bold theme-text transform transition-all duration-700 translate-x-10 italic opacity-0 sec-content">Equality</h2>
                 <div class="h-1 w-24 bg-[#d4af37] transition-all duration-700 delay-100 transform scale-x-0 origin-left sec-line"></div>
                 <p class="text-lg md:text-xl leading-relaxed theme-text max-w-lg text-justify transform transition-all duration-700 delay-200 translate-y-5 opacity-0 sec-content font-light">
                     <strong>Equality</strong> refers to the right of different groups of people to have a similar social position and receive the same treatment.
@@ -264,9 +312,7 @@
 
         <section id="sec-3" class="min-h-[90vh] flex items-center justify-end p-8 md:pr-24 scroll-section">
             <div class="w-full md:w-1/2 flex flex-col items-start space-y-6">
-                <h2 class="text-4xl md:text-6xl font-bold theme-text transform transition-all duration-700 translate-x-10 opacity-0 italic sec-content">
-                    Equity
-                </h2>
+                <h2 class="text-4xl md:text-6xl font-bold theme-text transform transition-all duration-700 translate-x-10 opacity-0 italic sec-content">Equity</h2>
                 <div class="h-1 w-24 bg-[#d4af37] transition-all duration-700 delay-100 transform scale-x-0 origin-left sec-line"></div>
                 <p class="text-lg md:text-xl leading-relaxed theme-text max-w-lg text-justify transform transition-all duration-700 delay-200 translate-y-5 opacity-0 sec-content font-light">
                     <strong>Equity</strong> refers to the principle of being fair and just, adjusting for the imbalance.
@@ -291,13 +337,42 @@
             const panRight = document.getElementById('pan-right');
             const leftWeight = document.getElementById('left-weight');
 
-            // Scroll Logic for Scale Visibility
+            const leftCurtain = document.getElementById('curtain-left');
+            const rightCurtain = document.getElementById('curtain-right');
+
+            setTimeout(() => {
+                document.body.classList.add('curtains-dropped');
+            }, 100);
+
             window.addEventListener('scroll', () => {
+                const scrollPos = window.scrollY;
+                const windowHeight = window.innerHeight;
+
+                // curtain fade logic
+                const fadeDistance = windowHeight * 0.5; 
+                let opacityCurtain = 1 - (scrollPos / fadeDistance);
+                if (opacityCurtain < 0) opacityCurtain = 0;
+                
+                leftCurtain.style.opacity = opacityCurtain;
+                rightCurtain.style.opacity = opacityCurtain;
+
+                // menu show logic
+                if (scrollPos < 5) {
+                    if (!mobileMenu.classList.contains('menu-open')) {
+                        navbar.classList.remove('opacity-0', 'pointer-events-none');
+                    }
+                    bgContainer.style.transform = 'translate(-50%, -50%) rotate(0deg)';
+                }
+
+                
+                // scale fade logic
                 const sec2 = document.getElementById('sec-2');
                 const sec3 = document.getElementById('sec-3');
+                const aboutUs = document.getElementById('aboutus'); 
+
                 const rect2 = sec2.getBoundingClientRect();
                 const rect3 = sec3.getBoundingClientRect();
-                const windowHeight = window.innerHeight;
+                const rectAbout = aboutUs.getBoundingClientRect();
 
                 let newOpacity = 0;
                 const startFade = windowHeight * 0.5;
@@ -311,7 +386,7 @@
                     newOpacity = 1 - ((rect2.top - endFade) / (startFade - endFade));
                 }
 
-                if (window.scrollY < 100) newOpacity = 0;
+                if (scrollPos < 100) newOpacity = 0;
                 scaleContainer.style.opacity = newOpacity;
             });
 
@@ -328,7 +403,7 @@
                 }
             });
 
-            // Intersection Observer for Sections
+            // Section Observer
             const observerOptions = { threshold: 0.5 };
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -339,9 +414,7 @@
                 });
             }, observerOptions);
 
-            document.querySelectorAll('.scroll-section').forEach(section => {
-                observer.observe(section);
-            });
+            document.querySelectorAll('.scroll-section').forEach(section => observer.observe(section));
 
             function handleSectionChange(id) {
                 if (id === 'sec-1') {
@@ -350,30 +423,26 @@
                     }
                 } else {
                     navbar.classList.add('opacity-0', 'pointer-events-none');
-                    mobileMenu.classList.remove('menu-open');
                 }
                 
                 switch(id) {
                     case 'sec-1':
                     case 'voting-section':
+                    case 'aboutus':
                         bgContainer.style.transform = 'translate(-50%, -50%) rotate(0deg)';
-                        scaleContainer.classList.add('opacity-0');
                         resetScale();
                         break;
                     case 'sec-2':
                         bgContainer.style.transform = 'translate(-50%, -50%) rotate(45deg)';
-                        scaleContainer.classList.remove('opacity-0');
                         setEqualityState();
                         break;
                     case 'sec-3':
                         bgContainer.style.transform = 'translate(-50%, -50%) rotate(135deg)';
-                        scaleContainer.classList.remove('opacity-0');
                         setEquityState();
                         break;
                 }
             }
 
-            // Scale Animations
             function resetScale() {
                 beamGroup.style.transform = 'translateX(-33%) rotate(0deg)';
                 panLeft.style.transform = 'translate(-50%, 0) rotate(0deg)';
@@ -383,8 +452,7 @@
 
             function setEqualityState() {
                 const angle = 20; 
-                const tweakShift = "-29.2%"; 
-                beamGroup.style.transform = `translateX(${tweakShift}) rotate(${angle}deg)`;
+                beamGroup.style.transform = `translateX(-29.2%) rotate(${angle}deg)`;
                 panLeft.style.transform = `translate(-50%, 0) rotate(-${angle}deg)`;
                 panRight.style.transform = `translate(50%, 0) rotate(-${angle}deg)`;
                 leftWeight.style.transform = 'translateX(-50%) scale(0.7)';
@@ -404,33 +472,21 @@
                 lines.forEach(el => el.classList.remove('scale-x-0'));
             }
 
-            // Initial Hero Animation
             setTimeout(() => {
                 document.getElementById('hero-title').classList.remove('opacity-0', 'translate-y-10');
                 document.getElementById('hero-sub').classList.remove('opacity-0');
             }, 100);
 
-            // Countdown Timer
+            // Timer
             const targetDate = new Date("May 8, 2026 23:59:59").getTime();
-            const timer = setInterval(() => {
+            setInterval(() => {
                 const now = new Date().getTime();
                 const distance = targetDate - now;
-
-                if (distance < 0) {
-                    clearInterval(timer);
-                    document.getElementById("countdown-container").innerHTML = '<p class="text-xl text-[#d4af37]">Voting Closed</p>';
-                    return;
-                }
-
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                document.getElementById("days").innerText = days.toString().padStart(2, '0');
-                document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
-                document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
-                document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+                if (distance < 0) return;
+                document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+                document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+                document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
             }, 1000);
         });
     </script>
